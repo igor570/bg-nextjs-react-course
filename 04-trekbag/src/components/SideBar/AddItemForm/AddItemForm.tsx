@@ -1,24 +1,31 @@
 import { Button } from "../../Button/Button.tsx";
-import { useState } from "react";
+import { SetStateAction, useState, Dispatch } from "react";
+import { ItemProps } from "../../../lib/constants.ts";
 
-export const AddItemForm = () => {
+//Not sure wtf this is, but it works :D
+interface AddItemFormProps {
+  setItems: Dispatch<SetStateAction<ItemProps[]>>;
+}
+
+export const AddItemForm = ({ setItems }: AddItemFormProps) => {
   const [formValue, setFormValue] = useState("");
 
-  // const createItem = () => {
-  //   const newItem = {
-  //     ...item,
-  //     id: Math.random(),
-  //     title: formValue,
-  //   };
-  //
-  //   setItem(newItem);
-  // };
+  const createItem = () => {
+    if (!formValue) return;
+    const newItem = {
+      id: new Date().getTime(),
+      title: formValue,
+      completed: false,
+    };
+    setItems((prev) => [...prev, newItem]);
+  };
 
   return (
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        console.log(formValue);
+        createItem();
+        setFormValue("");
       }}
     >
       <h2>Add Item</h2>

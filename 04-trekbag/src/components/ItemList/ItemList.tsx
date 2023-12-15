@@ -1,32 +1,26 @@
-import { initialItems } from "../../lib/constants.ts";
-import { useState } from "react";
+import { ItemProps } from "../../lib/constants.ts";
 
-export const ItemList = () => {
-  const [items, setItems] = useState(initialItems);
-
+export const ItemList = ({ items }: { items: ItemProps[] }) => {
   return (
     <ul>
       {items.map((item) => (
-        <Item key={item.id} item={item} />
+        <Item
+          key={item.id}
+          title={item.title}
+          completed={item.completed}
+          id={item.id}
+        />
       ))}
     </ul>
   );
 };
 
-interface ItemProps {
-  item: {
-    id: number;
-    title: string;
-    completed: boolean;
-  };
-}
-
-const Item = ({ item }: ItemProps) => {
+const Item = ({ title, completed }: ItemProps) => {
   return (
     <li className="item">
       <label>
-        <input checked={item.completed} type="checkbox" />
-        {item.title}
+        <input checked={completed} type="checkbox" />
+        {title}
       </label>
       <button>❌</button>
     </li>
