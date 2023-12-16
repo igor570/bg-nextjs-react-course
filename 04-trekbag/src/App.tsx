@@ -5,10 +5,15 @@ import { Header } from "./components/Header/Header.tsx";
 import { ItemList } from "./components/ItemList/ItemList.tsx";
 import { SideBar } from "./components/SideBar/SideBar.tsx";
 import { useState } from "react";
-import { Item } from "./lib/constants.ts";
+import { ItemProps } from "./lib/constants.ts";
 
 function App() {
-  const [items, setItems] = useState<Item[]>([]);
+  const [items, setItems] = useState<ItemProps[]>([]);
+
+  const handleAddItem = (newItem: ItemProps) => {
+    const newItems = [...items, newItem];
+    setItems(newItems);
+  };
 
   return (
     <>
@@ -16,7 +21,7 @@ function App() {
       <main>
         <Header />
         <ItemList items={items} />
-        <SideBar setItems={setItems} />
+        <SideBar handleAddItem={handleAddItem} />
       </main>
       <Footer />
     </>

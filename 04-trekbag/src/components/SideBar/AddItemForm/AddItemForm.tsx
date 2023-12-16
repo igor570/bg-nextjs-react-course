@@ -1,13 +1,12 @@
 import { Button } from "../../Button/Button.tsx";
-import { SetStateAction, useState, Dispatch } from "react";
+import { useState } from "react";
 import { ItemProps } from "../../../lib/constants.ts";
 
-//Not sure wtf this is, but it works :D
 interface AddItemFormProps {
-  setItems: Dispatch<SetStateAction<ItemProps[]>>;
+  handleAddItem: (newItem: ItemProps) => void;
 }
 
-export const AddItemForm = ({ setItems }: AddItemFormProps) => {
+export const AddItemForm = ({ handleAddItem }: AddItemFormProps) => {
   const [formValue, setFormValue] = useState("");
 
   const createItem = () => {
@@ -17,7 +16,7 @@ export const AddItemForm = ({ setItems }: AddItemFormProps) => {
       title: formValue,
       completed: false,
     };
-    setItems((prev) => [...prev, newItem]);
+    handleAddItem(newItem);
   };
 
   return (
