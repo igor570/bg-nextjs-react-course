@@ -1,6 +1,6 @@
 import { Button } from "../../Button/Button.tsx";
 import { useState } from "react";
-import { ItemProps } from "../../../lib/constants.ts";
+import { ItemProps } from "../../../lib/interfaces.ts";
 
 interface AddItemFormProps {
   handleAddItem: (newItem: ItemProps) => void;

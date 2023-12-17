@@ -53,11 +53,13 @@ function App() {
     setItems(newItems);
   };
 
+  const completedItems = items.filter((item) => item.completed).length;
+
   return (
     <>
       <Background />
       <main>
-        <Header />
+        <Header items={items} completedItems={completedItems} />
         <ItemList
           items={items}
           handleDestroyItem={handleDestroyItem}
