@@ -1,21 +1,7 @@
 import { ItemProps } from "../../lib/interfaces.ts";
 import Select from "react-select";
+import { sortOptions } from "../../lib/constants.ts";
 import { useState } from "react";
-
-const sortOptions = [
-  {
-    label: "Sort by Default",
-    value: "default",
-  },
-  {
-    label: "Sort by Packed",
-    value: "packed",
-  },
-  {
-    label: "Sort by Unpacked",
-    value: "unpacked",
-  },
-];
 
 export const ItemList = ({
   items,
