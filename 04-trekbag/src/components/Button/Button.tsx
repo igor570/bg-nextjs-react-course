@@ -1,8 +1,11 @@
 import { ButtonProps } from "../../lib/interfaces.ts";
 
-export const Button = ({ children, type }: ButtonProps) => {
+export const Button = ({ children, type, buttonFunction }: ButtonProps) => {
   return (
-    <button className={`btn ${type === "secondary" ? "btn--secondary" : ""}`}>
+    <button
+      onClick={buttonFunction}
+      className={`btn ${type === "secondary" ? "btn--secondary" : ""}`}
+    >
       {children}
     </button>
   );

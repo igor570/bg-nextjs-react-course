@@ -4,13 +4,28 @@ import { ItemProps } from "../../lib/constants.ts";
 
 interface SideBarProps {
   handleAddItem: (newItem: ItemProps) => void;
+  handleRemoveAllItems: () => void;
+  handleResetToInitial: () => void;
+  handleMarkAllAsComplete: () => void;
+  handleMarkAllAsIncomplete: () => void;
 }
 
-export const SideBar = ({ handleAddItem }: SideBarProps) => {
+export const SideBar = ({
+  handleAddItem,
+  handleRemoveAllItems,
+  handleResetToInitial,
+  handleMarkAllAsComplete,
+  handleMarkAllAsIncomplete,
+}: SideBarProps) => {
   return (
     <div className="sidebar">
       <AddItemForm handleAddItem={handleAddItem} />
-      <ButtonGroup />
+      <ButtonGroup
+        handleRemoveAllItems={handleRemoveAllItems}
+        handleResetToInitial={handleResetToInitial}
+        handleMarkAllAsComplete={handleMarkAllAsComplete}
+        handleMarkAllAsIncomplete={handleMarkAllAsIncomplete}
+      />
     </div>
   );
 };

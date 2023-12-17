@@ -1,28 +1,42 @@
-import { ItemProps } from "../../lib/constants.ts";
+import { ItemProps } from "../../lib/interfaces.ts";
 
-export const ItemList = ({ items }: { items: ItemProps[] }) => {
+export const ItemList = ({
+  items,
+  handleDestroyItem,
+  toggleItemCompleted,
+}: {
+  items: ItemProps[];
+}) => {
   return (
     <ul>
       {items.map((item) => (
         <Item
-          key={item.id}
+          key={crypto.randomUUID()}
           title={item.title}
           completed={item.completed}
           id={item.id}
+          handleDestroyItem={handleDestroyItem}
+          toggleItemCompleted={toggleItemCompleted}
         />
       ))}
     </ul>
   );
 };
 
-const Item = ({ title, completed }: ItemProps) => {
+const Item = ({
+  title,
+  completed,
+  id,
+  handleDestroyItem,
+  toggleItemCompleted,
+}: ItemProps) => {
   return (
     <li className="item">
-      <label>
+      <label onClick={() => toggleItemCompleted(id)}>
         <input checked={completed} type="checkbox" />
         {title}
       </label>
-      <button>❌</button>
+      <button onClick={() => handleDestroyItem(id)}>❌</button>
     </li>
   );
 };
