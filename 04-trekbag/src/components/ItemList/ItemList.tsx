@@ -1,7 +1,7 @@
 import { ItemProps } from "../../lib/interfaces.ts";
 import Select from "react-select";
 import { sortOptions } from "../../lib/constants.ts";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 
 export const ItemList = ({
   items,
@@ -12,16 +12,18 @@ export const ItemList = ({
 }) => {
   const [sortOption, setSortOption] = useState("default");
 
-  //sorting the items state variable before rendering
-  const sortedItems = [...items].sort((a, b) => {
-    if (sortOption === "packed") {
-      return b.completed - a.completed;
-    }
-    if (sortOption === "unpacked") {
-      return a.completed - b.completed;
-    }
-    return;
-  });
+  //Will only run if items or sortBy changes. This is a memoized version of the sort function
+  const sortedItems = useMemo(() => {
+    return [...items].sort((a, b) => {
+      if (sortOption === "packed") {
+        return b.completed - a.completed;
+      }
+      if (sortOption === "unpacked") {
+        return a.completed - b.completed;
+      }
+      return;
+    });
+  }, [sortOption, items]);
 
   return (
     <ul>

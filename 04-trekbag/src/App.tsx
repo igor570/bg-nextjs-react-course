@@ -4,12 +4,15 @@ import { Footer } from "./components/Footer/Footer.tsx";
 import { Header } from "./components/Header/Header.tsx";
 import { ItemList } from "./components/ItemList/ItemList.tsx";
 import { SideBar } from "./components/SideBar/SideBar.tsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ItemProps } from "./lib/interfaces.ts";
 import { initialItems } from "./lib/constants.ts";
 
 function App() {
-  const [items, setItems] = useState<ItemProps[]>([]);
+  //Storing items in localStorage within state, will only be called once with an anonymous callback function
+  const [items, setItems] = useState<ItemProps[]>(
+    () => JSON.parse(localStorage.getItem("items")!) || initialItems,
+  );
 
   const handleAddItem = (newItem: ItemProps) => {
     const newItems = [...items, newItem];
@@ -52,6 +55,11 @@ function App() {
     });
     setItems(newItems);
   };
+
+  //Every time items is updated, we update localStorage with this useEffect
+  useEffect(() => {
+    localStorage.setItem("items", JSON.stringify(items));
+  }, [items]);
 
   const completedItems = items.filter((item) => item.completed).length;
 
