@@ -8,7 +8,9 @@ export const ItemList = ({
   handleDestroyItem,
   toggleItemCompleted,
 }: {
-  items: ItemProps[];
+  items: ItemProps[],
+    handleDestroyItem: (id: number) => void,
+    toggleItemCompleted: (id: number) => void,
 }) => {
   const [sortOption, setSortOption] = useState("default");
 
