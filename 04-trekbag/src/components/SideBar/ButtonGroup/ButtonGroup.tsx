@@ -7,6 +7,8 @@ export const ButtonGroup = () => {
   const resetToInitial = useItemStore((state) => state.resetToInitial);
   const removeAllItems = useItemStore((state) => state.removeAllItems);
 
+  console.log('Button Rendering')
+
   const secondaryButtons = [
     {
       id: 1,

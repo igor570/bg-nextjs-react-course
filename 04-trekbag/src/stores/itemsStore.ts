@@ -1,8 +1,23 @@
 import { create } from "zustand";
-import { initialItems } from "../lib/constants.ts";
+import {initialItems, Item} from "../lib/constants.ts";
+
+//We can type the entire store by giving it an interface of all of our actions and state
+//We then simply add a generic to the store.
+
+interface ItemStore {
+    items: Item[];
+    addItem: (formValue: string) => void;
+    destroyItem: (id: number) => void;
+    toggleItem: (id: number) => void;
+    removeAllItems: () => void;
+    resetToInitial: () => void;
+    markAllAsComplete: () => void;
+    markAllAsInComplete: () => void;
+
+}
 
 //Store
-const useItemStore = create((set) => ({
+const useItemStore = create<ItemStore>((set) => ({
     //Action
     items: initialItems,
     //Action
@@ -57,7 +72,7 @@ const useItemStore = create((set) => ({
                 return {...item, completed: false}
             })
             return {items: newItems}
-        })
+        });
     },
 }));
 
