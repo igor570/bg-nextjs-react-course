@@ -1,4 +1,4 @@
-export default function Footer() {
+export function Footer() {
   return (
     <footer className='footer'>
       <small>Igor &copy;2023</small>

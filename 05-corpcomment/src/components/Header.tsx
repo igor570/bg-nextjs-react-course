@@ -1,9 +1,9 @@
-import FeedBackForm from './FeedBackForm';
-import Logo from './Logo';
-import PageHeading from './PageHeading';
-import Pattern from './Pattern';
+import { Pattern } from "./Pattern";
+import { Logo } from "./Logo";
+import { PageHeading } from "./PageHeading";
+import { FeedBackForm } from "./FeedBackForm";
 
-export default function Header() {
+export function Header() {
   return (
     <header>
       <Pattern />

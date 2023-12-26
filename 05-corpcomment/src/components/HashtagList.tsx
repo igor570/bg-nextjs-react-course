@@ -1,4 +1,4 @@
-export default function HashtwagList() {
+export function HashtagList() {
   return (
     <ul className='hashtags'>
       <li>
