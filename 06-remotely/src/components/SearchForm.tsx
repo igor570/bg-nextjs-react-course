@@ -1,4 +1,12 @@
-export default function SearchForm({ formValue, setFormValue }) {
+type SearchFormProps = {
+  formValue: string;
+  setFormValue: React.Dispatch<React.SetStateAction<string>>;
+};
+
+export default function SearchForm({
+  formValue,
+  setFormValue,
+}: SearchFormProps) {
   const handleFormInput = (e: React.FormEvent<HTMLInputElement>) => {
     setFormValue(e.currentTarget.value);
     console.log(formValue);

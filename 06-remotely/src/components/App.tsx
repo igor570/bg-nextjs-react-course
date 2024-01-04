@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Header, { HeaderTop } from "./Header.tsx";
 import Container from "./Container.tsx";
 import Footer from "./Footer.tsx";
@@ -12,25 +12,12 @@ import ResultsCount from "./ResultsCount.tsx";
 import SortingControls from "./SortingControls.tsx";
 import JobList from "./JobList.tsx";
 import Pagination from "./PaginationControls.tsx";
+import { useJobItems } from "../lib/hooks.ts";
 
 function App() {
   const [formValue, setFormValue] = useState<string>("");
-  const [jobItems, setJobItems] = useState<[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-
-  useEffect(() => {
-    if (!formValue) return;
-    const fetchData = async () => {
-      setIsLoading(true);
-      const response = await fetch(
-        `https://bytegrad.com/course-assets/projects/rmtdev/api/data?search=${formValue}`,
-      );
-      const data = await response.json();
-      setJobItems(data.jobItems);
-      setIsLoading(false);
-    };
-    fetchData();
-  }, [formValue]);
+  //jobItems will be jobItemsSliced but returning in array overwrites the name of the variable
+  const [jobItems, isLoading] = useJobItems(formValue);
 
   return (
     <>
