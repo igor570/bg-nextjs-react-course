@@ -1,7 +1,11 @@
 import BookmarkIcon from "./BookmarkIcon";
 import { JobContent } from "../lib/types.ts";
 
-export default function JobItemContent(jobContent: JobContent) {
+type JobItemContentProps = {
+    jobContent: JobContent | null;
+}
+
+export default function JobItemContent({ jobContent } : JobItemContentProps) {
   if (!jobContent) {
     return <EmptyJobContent />;
   }

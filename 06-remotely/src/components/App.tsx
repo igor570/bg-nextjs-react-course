@@ -20,7 +20,6 @@ function App() {
   const [jobItems, isLoading] = useJobItems(formValue);
   const activeId = useActiveId();
   const jobContent = useJobContent(activeId);
-  console.log(jobContent, activeId);
 
   return (
     <>
@@ -41,7 +40,7 @@ function App() {
           <JobList jobItems={jobItems} isLoading={isLoading} />
           <Pagination />
         </Sidebar>
-        {/*<JobItemContent jobContent={jobContent} />*/}
+        <JobItemContent jobContent={jobContent} />
       </Container>
       <Footer />
     </>

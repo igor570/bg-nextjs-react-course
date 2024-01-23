@@ -12,13 +12,7 @@ export type SearchFormProps = {
   setFormValue: (formValue: string) => void;
 };
 
-export type JobContent = {
-  id: number;
-  badgeLetters: string;
-  title: string;
-  company: string;
-  relevanceScore?: number;
-  daysAgo: number;
+export type JobContent = JobItem & {
   description: string;
   qualifications: string[];
   reviews: string[];

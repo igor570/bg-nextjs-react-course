@@ -57,7 +57,6 @@ export const useJobContent = (id: number | null) => {
     const fetchJobContext = async () => {
       const response = await fetch(`${BASE_API_URL}/${id}`);
       const data = await response.json();
-      console.log(data);
       setJobContent(data.jobItem);
     };
     fetchJobContext();
