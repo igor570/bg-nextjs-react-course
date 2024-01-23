@@ -12,12 +12,15 @@ import ResultsCount from "./ResultsCount.tsx";
 import SortingControls from "./SortingControls.tsx";
 import JobList from "./JobList.tsx";
 import Pagination from "./PaginationControls.tsx";
-import { useJobItems } from "../lib/hooks.ts";
+import { useActiveId, useJobContent, useJobItems } from "../lib/hooks.ts";
 
 function App() {
   const [formValue, setFormValue] = useState<string>("");
   //jobItems will be jobItemsSliced but returning in array overwrites the name of the variable
   const [jobItems, isLoading] = useJobItems(formValue);
+  const activeId = useActiveId();
+  const jobContent = useJobContent(activeId);
+  console.log(jobContent, activeId);
 
   return (
     <>
@@ -38,7 +41,7 @@ function App() {
           <JobList jobItems={jobItems} isLoading={isLoading} />
           <Pagination />
         </Sidebar>
-        <JobItemContent />
+        {/*<JobItemContent jobContent={jobContent} />*/}
       </Container>
       <Footer />
     </>
