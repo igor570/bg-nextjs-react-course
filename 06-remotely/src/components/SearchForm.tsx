@@ -1,7 +1,4 @@
-type SearchFormProps = {
-  formValue: string;
-  setFormValue: React.Dispatch<React.SetStateAction<string>>;
-};
+import { SearchFormProps } from "../lib/types";
 
 export default function SearchForm({
   formValue,
