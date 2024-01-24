@@ -13,10 +13,13 @@ import SortingControls from "./SortingControls.tsx";
 import JobList from "./JobList.tsx";
 import Pagination from "./PaginationControls.tsx";
 import { useJobItems } from "../lib/hooks.ts";
+import { useDebounce } from "../lib/hooks.ts";
 
 function App() {
   const [formValue, setFormValue] = useState<string>("");
-  const [jobItems, isLoading, totalJobResults] = useJobItems(formValue);
+  const debouncedFormValue = useDebounce(formValue, 250);
+  const [jobItems, isLoading, totalJobResults] =
+    useJobItems(debouncedFormValue);
 
   return (
     <>

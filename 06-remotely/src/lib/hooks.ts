@@ -3,6 +3,17 @@ import { BASE_API_URL } from "./constants.ts";
 import { JobItem } from "./types.ts";
 import { JobContent } from "./types.ts";
 
+export const useDebounce = <Value>(value: Value, delay: number): Value => {
+  const [debouncedValue, setDebouncedValue] = useState<Value>(value);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setDebouncedValue(value), delay);
+    return () => clearTimeout(timer);
+  }, [value]);
+
+  return debouncedValue;
+};
+
 export const useActiveId = () => {
   const [activeId, setActiveId] = useState<number | null>(null);
 
