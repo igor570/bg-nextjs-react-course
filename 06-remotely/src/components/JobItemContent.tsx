@@ -1,14 +1,14 @@
 import BookmarkIcon from "./BookmarkIcon";
-import { JobContent } from "../lib/types.ts";
+import { useActiveId, useJobContent } from "../lib/hooks.ts";
+import Spinner from "./Spinner.tsx";
 
-type JobItemContentProps = {
-    jobContent: JobContent | null;
-}
+export default function JobItemContent() {
+  const activeId = useActiveId();
+  const [jobContent, isLoading] = useJobContent(activeId);
 
-export default function JobItemContent({ jobContent } : JobItemContentProps) {
-  if (!jobContent) {
-    return <EmptyJobContent />;
-  }
+  if (isLoading) return <LoadingJobContent />;
+
+  if (!jobContent) return <EmptyJobContent />;
 
   return (
     <section className="job-details">
@@ -20,7 +20,7 @@ export default function JobItemContent({ jobContent } : JobItemContentProps) {
 
         <section className="job-info">
           <div className="job-info__left">
-            <div className="job-info__badge">{jobContent.badgeLetters}</div>
+            <div className="job-info__=badge">{jobContent.badgeLetters}</div>
             <div className="job-info__below-badge">
               <time className="job-info__time">{jobContent.daysAgo}</time>
               <BookmarkIcon />
@@ -90,7 +90,7 @@ export default function JobItemContent({ jobContent } : JobItemContentProps) {
   );
 }
 
-function EmptyJobContent() {
+const EmptyJobContent = () => {
   return (
     <section className="job-details">
       <div>
@@ -103,4 +103,14 @@ function EmptyJobContent() {
       </div>
     </section>
   );
-}
+};
+
+const LoadingJobContent = () => {
+  return (
+    <section className="job-details">
+      <div>
+        <Spinner />
+      </div>
+    </section>
+  );
+};

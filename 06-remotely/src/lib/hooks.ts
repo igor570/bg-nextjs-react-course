@@ -27,6 +27,7 @@ export const useJobItems = (formValue: string) => {
   const [jobItems, setJobItems] = useState<JobItem[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
+  const totalJobResults = jobItems.length;
   const jobItemsSliced = jobItems.slice(0, 7); //derived state, computing from job items state variable
 
   useEffect(() => {
@@ -41,7 +42,7 @@ export const useJobItems = (formValue: string) => {
     fetchData();
   }, [formValue]);
 
-  return [jobItemsSliced, isLoading] as const;
+  return [jobItemsSliced, isLoading, totalJobResults] as const;
   /*
    Because this array won't change, we can use "as const" to tell typescript that this array won't change.
    This also fixes the types of the array elements, jobItemsSliced can only be a JobItem[] and isLoading
@@ -51,15 +52,18 @@ export const useJobItems = (formValue: string) => {
 
 export const useJobContent = (id: number | null) => {
   const [jobContent, setJobContent] = useState<JobContent | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
     if (!id) return;
     const fetchJobContext = async () => {
+      setIsLoading(true);
       const response = await fetch(`${BASE_API_URL}/${id}`);
       const data = await response.json();
+      setIsLoading(false);
       setJobContent(data.jobItem);
     };
     fetchJobContext();
   }, [id]);
-  return jobContent;
+  return [jobContent, isLoading] as const;
 };
