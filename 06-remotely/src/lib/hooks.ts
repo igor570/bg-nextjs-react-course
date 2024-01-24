@@ -1,7 +1,60 @@
 import { useEffect, useState } from "react";
 import { BASE_API_URL } from "./constants.ts";
-import { JobItem } from "./types.ts";
-import { JobContent } from "./types.ts";
+import { JobContentApiResponse, JobItem } from "./types.ts";
+import { useQuery } from "@tanstack/react-query";
+
+//-----------Helper Functions-----------
+const fetchJobContent = async (id: number): Promise<JobContentApiResponse> => {
+  const response = await fetch(`${BASE_API_URL}/${id}`);
+  if (!response.ok) throw new Error("Network response was not ok");
+  const data = await response.json();
+  return data;
+};
+
+//-----------Hooks-----------
+export const useJobItems = (formValue: string) => {
+  const [jobItems, setJobItems] = useState<JobItem[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const totalJobResults = jobItems.length;
+  const jobItemsSliced = jobItems.slice(0, 7); //derived state, computing from job items state variable
+
+  useEffect(() => {
+    if (!formValue) return;
+    const fetchData = async () => {
+      setIsLoading(true);
+      const response = await fetch(`${BASE_API_URL}?search=${formValue}`);
+      const data = await response.json();
+      setJobItems(data.jobItems);
+      setIsLoading(false);
+    };
+    fetchData();
+  }, [formValue]);
+
+  return [jobItemsSliced, isLoading, totalJobResults] as const;
+  /*
+   Because this array won't change, we can use "as const" to tell typescript that this array won't change.
+   This also fixes the types of the array elements, jobItemsSliced can only be a JobItem[] and isLoading
+   can only be a boolean.
+   */
+};
+
+export const useJobContent = (id: number | null) => {
+  const { data, isInitialLoading } = useQuery(
+    ["job-content", id],
+    () => (id ? fetchJobContent(id) : null),
+    {
+      staleTime: 1000 * 60 * 60,
+      refetchOnWindowFocus: false,
+      retry: false,
+      enabled: Boolean(id),
+      onError: (error) => console.log(error),
+    },
+  );
+  const jobContent = data?.jobItem;
+  const isLoading = isInitialLoading;
+  return { jobContent, isLoading } as const;
+};
 
 export const useDebounce = <Value>(value: Value, delay: number): Value => {
   const [debouncedValue, setDebouncedValue] = useState<Value>(value);
@@ -32,49 +85,4 @@ export const useActiveId = () => {
   }, []);
 
   return activeId;
-};
-
-export const useJobItems = (formValue: string) => {
-  const [jobItems, setJobItems] = useState<JobItem[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-
-  const totalJobResults = jobItems.length;
-  const jobItemsSliced = jobItems.slice(0, 7); //derived state, computing from job items state variable
-
-  useEffect(() => {
-    if (!formValue) return;
-    const fetchData = async () => {
-      setIsLoading(true);
-      const response = await fetch(`${BASE_API_URL}?search=${formValue}`);
-      const data = await response.json();
-      setJobItems(data.jobItems);
-      setIsLoading(false);
-    };
-    fetchData();
-  }, [formValue]);
-
-  return [jobItemsSliced, isLoading, totalJobResults] as const;
-  /*
-   Because this array won't change, we can use "as const" to tell typescript that this array won't change.
-   This also fixes the types of the array elements, jobItemsSliced can only be a JobItem[] and isLoading
-   can only be a boolean.
-   */
-};
-
-export const useJobContent = (id: number | null) => {
-  const [jobContent, setJobContent] = useState<JobContent | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-
-  useEffect(() => {
-    if (!id) return;
-    const fetchJobContext = async () => {
-      setIsLoading(true);
-      const response = await fetch(`${BASE_API_URL}/${id}`);
-      const data = await response.json();
-      setIsLoading(false);
-      setJobContent(data.jobItem);
-    };
-    fetchJobContext();
-  }, [id]);
-  return [jobContent, isLoading] as const;
 };

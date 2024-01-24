@@ -4,7 +4,7 @@ import Spinner from "./Spinner.tsx";
 
 export default function JobItemContent() {
   const activeId = useActiveId();
-  const [jobContent, isLoading] = useJobContent(activeId);
+  const { jobContent, isLoading } = useJobContent(activeId);
 
   if (isLoading) return <LoadingJobContent />;
 
@@ -20,7 +20,7 @@ export default function JobItemContent() {
 
         <section className="job-info">
           <div className="job-info__left">
-            <div className="job-info__=badge">{jobContent.badgeLetters}</div>
+            <div className="job-info__badge">{jobContent.badgeLetters}</div>
             <div className="job-info__below-badge">
               <time className="job-info__time">{jobContent.daysAgo}</time>
               <BookmarkIcon />
