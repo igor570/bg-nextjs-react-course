@@ -22,3 +22,8 @@ export type JobContent = JobItem & {
   coverImgURL: string;
   companyURL: string;
 };
+
+export type JobContentApiResponse = {
+  public: boolean;
+  jobItem: JobContent;
+};
