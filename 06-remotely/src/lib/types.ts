@@ -27,3 +27,13 @@ export type JobContentApiResponse = {
   public: boolean;
   jobItem: JobContent;
 };
+
+export type JobItemApiResponse = {
+  public: boolean;
+  sorted: boolean;
+  jobItems: JobItem[];
+};
+
+export type ResultsCountProps = {
+  totalJobResults: number;
+};

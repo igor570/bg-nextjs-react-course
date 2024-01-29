@@ -18,8 +18,10 @@ import { useDebounce } from "../lib/hooks.ts";
 function App() {
   const [formValue, setFormValue] = useState<string>("");
   const debouncedFormValue = useDebounce(formValue, 250);
-  const [jobItems, isLoading, totalJobResults] =
-    useJobItems(debouncedFormValue);
+  const [jobItems, isLoading] = useJobItems(debouncedFormValue);
+
+  const totalJobResults = jobItems?.length || 0;
+  const jobItemsSliced = jobItems?.slice(0, 7) || [];
 
   return (
     <>
@@ -37,7 +39,7 @@ function App() {
             <ResultsCount totalJobResults={totalJobResults} />
             <SortingControls />
           </SidebarTop>
-          <JobList jobItems={jobItems} isLoading={isLoading} />
+          <JobList jobItems={jobItemsSliced} isLoading={isLoading} />
           <Pagination />
         </Sidebar>
         <JobItemContent />
