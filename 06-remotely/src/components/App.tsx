@@ -14,6 +14,7 @@ import JobList from "./JobList.tsx";
 import Pagination from "./PaginationControls.tsx";
 import { useJobItems } from "../lib/hooks.ts";
 import { useDebounce } from "../lib/hooks.ts";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   const [formValue, setFormValue] = useState<string>("");
@@ -45,6 +46,7 @@ function App() {
         <JobItemContent />
       </Container>
       <Footer />
+      <Toaster position="top-right" />
     </>
   );
 }

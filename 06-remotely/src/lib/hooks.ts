@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { BASE_API_URL } from "./constants.ts";
 import { JobContentApiResponse, JobItemApiResponse } from "./types.ts";
+import { handleErrors } from "./utils.ts";
 
 //-----------Helper Functions-----------
 const fetchJobContent = async (id: number): Promise<JobContentApiResponse> => {
@@ -15,6 +16,7 @@ const fetchJobItems = async (
   formValue: string,
 ): Promise<JobItemApiResponse> => {
   const response = await fetch(`${BASE_API_URL}?search=${formValue}`);
+  if (!response.ok) throw new Error("Network response was not ok");
   const data = await response.json();
   return data;
 };
@@ -30,7 +32,7 @@ export const useJobItems = (formValue: string) => {
       refetchOnWindowFocus: false,
       retry: false,
       enabled: Boolean(formValue),
-      onError: (error) => console.log(error),
+      onError: (error) => handleErrors(error),
     },
   );
 
@@ -48,7 +50,7 @@ export const useJobContent = (id: number | null) => {
       refetchOnWindowFocus: false,
       retry: false,
       enabled: Boolean(id),
-      onError: (error) => console.log(error),
+      onError: (error) => handleErrors(error),
     },
   );
   const jobContent = data?.jobItem;
