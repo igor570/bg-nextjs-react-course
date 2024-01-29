@@ -46,7 +46,7 @@ export const useDebounce = <Value,>(value: Value, delay: number): Value => {
   useEffect(() => {
     const timer = setTimeout(() => setDebouncedValue(value), delay);
     return () => clearTimeout(timer);
-  }, [value]);
+  }, [value, delay]);
 
   return debouncedValue;
 };
